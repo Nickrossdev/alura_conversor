@@ -53,7 +53,3 @@ Este proyecto utiliza la [Exchange Rate API](https://www.exchangerate-api.com/) 
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio.
-
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
