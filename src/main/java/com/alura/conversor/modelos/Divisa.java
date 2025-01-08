@@ -41,17 +41,21 @@ public class Divisa {
 
     public void setTasa(double tasa) {
         this.tasa = tasa;
+        this.fechaHora = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
-        System.out.println(String.format("",));
+        String sTasa = formatearDecimal(this.tasa);
+        String sFechaHora = formatearFechaHora(this.fechaHora);
+        return String.format(
+                "Codigo: %s | Iso: %s | Nombre: %s | Tasa: %s | Actualización: %s",
+                this.codigo, this.iso, this.nombre, sTasa, sFechaHora);
     }
 
     private String obtenerIdentificadorUnico() {
-        int hashCode = this.hashCode();
-        String hashHex = Integer.toHexString(hashCode);
-        return hashHex.length() > 8 ? hashHex.substring(hashHex.length() - 8) : hashHex;
+        String base = this.iso + LocalDateTime.now().toString() + this.nombre;
+        return Integer.toHexString(base.hashCode());
     }
 
     private String formatearDecimal(double numero) {
@@ -59,9 +63,9 @@ public class Divisa {
         return formatoDecimal.format(numero);
     }
 
-    private String formatearFechaHora(LocalDateTime fechaHora){
+    private String formatearFechaHora(LocalDateTime fechaHora) {
         DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatoFechaHora.format(fechaHora);
     }
-    
+
 }

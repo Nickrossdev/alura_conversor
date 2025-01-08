@@ -1,5 +1,6 @@
 package com.alura.conversor.modelos;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -35,21 +36,20 @@ public class Usuario {
     }
 
     public Map<String, Operacion> getHistorialDeOperaciones() {
-        return historialDeOperaciones;
+        return this.historialDeOperaciones;
     }
 
-    private void incrementarContador() {
+    private void incrementarContadorDeOperaciones() {
         this.contadorDeOperaciones++;
     }
 
     public void guardarOperacion(Operacion operacion) {
         this.historialDeOperaciones.put(operacion.getCodigo(), operacion);
-        incrementarContador();
+        incrementarContadorDeOperaciones();
     }
 
     private String obtenerIdentificadorUnico() {
-        int hashCode = this.hashCode();
-        String hashHex = Integer.toHexString(hashCode);
-        return hashHex.length() > 8 ? hashHex.substring(hashHex.length() - 8) : hashHex;
+        String base = this.nombre + LocalDateTime.now().toString() + this.correo;
+        return Integer.toHexString(base.hashCode());
     }
 }

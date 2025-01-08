@@ -31,31 +31,31 @@ public class Operacion {
     }
 
     public String getIsoDivisaOrigen() {
-        return isoDivisaOrigen;
+        return this.isoDivisaOrigen;
     }
 
     public String getIsoDivisaDestino() {
-        return isoDivisaDestino;
+        return this.isoDivisaDestino;
     }
 
     public double getMonto() {
-        return monto;
+        return this.monto;
     }
 
     public double getTasa() {
-        return tasa;
+        return this.tasa;
     }
 
     public double getResultado() {
-        return resultado;
+        return this.resultado;
     }
 
     public Usuario getUsuario() {
-        return usuario;
+        return this.usuario;
     }
 
     public LocalDateTime getFechaHora() {
-        return fechaHora;
+        return this.fechaHora;
     }
 
     @Override
@@ -65,14 +65,16 @@ public class Operacion {
         String sResultado = formatearDecimal(this.resultado);
         String sUsuario = this.usuario.getNombre();
         String sFechaHora = formatearFechaHora(this.fechaHora);
-        return String.format("Codigo: %s | Operacion: %s -> %s | Monto: %s | Tasa: %s | Resultado: %s | Usuario: %s | Fecha y Hora: %s",this.codigo, this.isoDivisaOrigen, this, isoDivisaDestino, sMonto,
-                sTasa, sResultado, sUsuario, sFechaHora);
+
+        return String.format(
+                "Codigo: %s | Operacion: %s -> %s | Monto: %s | Tasa: %s | Resultado: %s | Usuario: %s | Fecha y Hora: %s",
+                this.codigo, this.isoDivisaOrigen, this.isoDivisaDestino, sMonto, sTasa, sResultado, sUsuario,
+                sFechaHora);
     }
 
     private String obtenerIdentificadorUnico() {
-        int hashCode = this.hashCode();
-        String hashHex = Integer.toHexString(hashCode);
-        return hashHex.length() > 8 ? hashHex.substring(hashHex.length() - 8) : hashHex;
+        String base = this.isoDivisaOrigen + LocalDateTime.now().toString() + this.isoDivisaDestino;
+        return Integer.toHexString(base.hashCode());
     }
 
     private String formatearDecimal(double numero) {
@@ -80,7 +82,7 @@ public class Operacion {
         return formatoDecimal.format(numero);
     }
 
-    private String formatearFechaHora(LocalDateTime fechaHora){
+    private String formatearFechaHora(LocalDateTime fechaHora) {
         DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatoFechaHora.format(fechaHora);
     }
