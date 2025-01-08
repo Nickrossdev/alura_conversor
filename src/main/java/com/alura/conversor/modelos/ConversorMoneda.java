@@ -51,19 +51,10 @@ public class ConversorMoneda {
                     break;
                 case 2:
                     mostrarDivisasDisponibles();
+                    iniciarConversion();
                     break;
                 case 3:
                     mostrarDivisasDisponibles();
-                    this.isoDivisaOrigen = obtenerEntradaCodigoIso("Origen");
-                    this.isoDivisaDestino = obtenerEntradaCodigoIso("Destino");
-                    cargarDivisas();
-                    this.monto = obtenerEntradaMonto();
-                    this.tasa = obtenerTasa();
-                    this.resultado = this.monto * this.tasa;
-                    System.out.println("1 " + this.isoDivisaOrigen + " -> " + this.tasa + " " + this.isoDivisaDestino);
-                    System.out.println(this.monto + " " + this.isoDivisaOrigen + " -> " + this.resultado + " "
-                            + this.isoDivisaDestino);
-                    procesarOperacion();
                     break;
                 case 4:
                     mostrarHistorialUsuario();
@@ -99,6 +90,19 @@ public class ConversorMoneda {
         OperacionCorta operacionCorta = crearOperacionCorta(this.isoDivisaOrigen, this.isoDivisaDestino);
         guardarOperacion(operacion);
         guardarOperacionCorta(operacionCorta);
+    }
+
+    private void iniciarConversion(){
+        this.isoDivisaOrigen = obtenerEntradaCodigoIso("Origen");
+        this.isoDivisaDestino = obtenerEntradaCodigoIso("Destino");
+        cargarDivisas();
+        this.monto = obtenerEntradaMonto();
+        this.tasa = obtenerTasa();
+        this.resultado = this.monto * this.tasa;
+        System.out.println("1 " + this.isoDivisaOrigen + " -> " + this.tasa + " " + this.isoDivisaDestino);
+        System.out.println(this.monto + " " + this.isoDivisaOrigen + " -> " + this.resultado + " "
+                + this.isoDivisaDestino);
+        procesarOperacion();
     }
 
     private void guardarOperacion(Operacion operacion) {
