@@ -40,12 +40,7 @@ El conversor de moneda es una herramienta útil para viajeros, comerciantes y cu
     mvn exec:java -Dexec.mainClass="com.alura.conversor.Main"
     ```
 2. Sigue las instrucciones en pantalla para convertir entre diferentes monedas.
-
-## Estructura del Proyecto
-
-- [conversor](http://_vscodecontentref_/0) - Código fuente principal
-- `src/test/java/com/alura/conversor/` - Pruebas unitarias
-
+3. 
 ## Dependencias
 
 - [Gson](https://github.com/google/gson) - Para el manejo de JSON
