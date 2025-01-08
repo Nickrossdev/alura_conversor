@@ -8,6 +8,7 @@ public class OperacionCorta {
     public OperacionCorta(String isoDivisaOrigen, String isoDivisaDestino) {
         this.isoDivisaOrigen = isoDivisaOrigen;
         this.isoDivisaDestino = isoDivisaDestino;
+        incrementarContadorDeOperaciones();
     }
 
     public String getIsoDivisaOrigen() {

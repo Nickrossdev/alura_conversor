@@ -1,7 +1,6 @@
 package com.alura.conversor;
 
 import com.alura.conversor.modelos.ConversorMoneda;
-import com.alura.conversor.modelos.Operacion;
 import com.alura.conversor.modelos.Usuario;
 
 public class Main {

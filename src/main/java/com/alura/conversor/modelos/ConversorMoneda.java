@@ -53,6 +53,7 @@ public class ConversorMoneda {
                     mostrarDivisasDisponibles();
                     break;
                 case 3:
+                    mostrarDivisasDisponibles();
                     this.isoDivisaOrigen = obtenerEntradaCodigoIso("Origen");
                     this.isoDivisaDestino = obtenerEntradaCodigoIso("Destino");
                     cargarDivisas();
@@ -60,11 +61,12 @@ public class ConversorMoneda {
                     this.tasa = obtenerTasa();
                     this.resultado = this.monto * this.tasa;
                     System.out.println("1 " + this.isoDivisaOrigen + " -> " + this.tasa + " " + this.isoDivisaDestino);
-                    System.out.println(this.monto + " " + this.isoDivisaOrigen + " -> " + this.resultado + " " + this.isoDivisaDestino);
+                    System.out.println(this.monto + " " + this.isoDivisaOrigen + " -> " + this.resultado + " "
+                            + this.isoDivisaDestino);
                     procesarOperacion();
                     break;
                 case 4:
-                    this.usuario.getHistorialDeOperaciones();
+                    mostrarHistorialUsuario();
                     break;
                 case 5:
                     salirPrograma();
@@ -119,15 +121,24 @@ public class ConversorMoneda {
     }
 
     private void mostrarOperacionesFrecuentes() {
-        int indice = 0;
+        int indice = 1;
+        if(this.operacionesFrecuentes.isEmpty()){
+            System.out.println("""
+                    Aun no hay conversiones Frecuentes
+                    ----------------------------------------------""");
+        } else {
+            ArrayList<OperacionCorta> top = new ArrayList<>(this.operacionesFrecuentes);
+        top.sort((o1, o2) -> Integer.compare(o2.getContadorDeOperaciones(), o1.getContadorDeOperaciones()));
         System.out.println("""
-                RANKING - ORIGEN - DESTINO
+                N° - ORIGEN - DESTINO - VECES
                 ----------------------------------------------""");
-        for (OperacionCorta operacionCorta : this.operacionesFrecuentes) {
+        for (OperacionCorta operacionCorta : top) {
             String divisaIsoOrigen = operacionCorta.getIsoDivisaOrigen();
             String divisaIsoDestino = operacionCorta.getIsoDivisaDestino();
-            System.out.println(String.format("%d. %s -> %s", indice, divisaIsoOrigen, divisaIsoDestino));
+            int contadorDeOperaciones = operacionCorta.getContadorDeOperaciones();
+            System.out.println(String.format("%d. - %s -> %s - %d", indice, divisaIsoOrigen, divisaIsoDestino, contadorDeOperaciones));
             indice++;
+        }
         }
     }
 
@@ -151,10 +162,11 @@ public class ConversorMoneda {
 
     private void mostrarDivisasDisponibles() {
         int indice = 1;
-        System.out.println("""
-                N° - CODIGO - NOMBRE DE MONEDA
-                ----------------------------------------------""");
         if (!divisasDisponibles.isEmpty()) {
+            System.out.println("""
+                    Divisas Disponibles:
+                    N° - CODIGO - NOMBRE DE MONEDA
+                    ----------------------------------------------""");
             for (Map.Entry<String, String> entry : this.divisasDisponibles.entrySet()) {
                 System.out.println(String.format("%d. %s - %s", indice, entry.getKey(), entry.getValue()));
                 indice++;
@@ -220,7 +232,7 @@ public class ConversorMoneda {
             System.out.print("Ingrese el Codigo ISO de la moneda de " + tipo + " :");
             iso = leerLinea().toUpperCase();
             iso = validarEntradaCodigoIso(iso);
-            if(iso == null){
+            if (iso == null) {
                 System.out.println("El código ingresado no es válido. Por favor, intenta de nuevo.");
             }
         }
@@ -235,20 +247,21 @@ public class ConversorMoneda {
         return null;
     }
 
-    private double obtenerEntradaMonto(){
+    private double obtenerEntradaMonto() {
         double monto = 0;
         while (monto == 0) {
-            System.out.println("Ingrese el monto a convertir (" + this.isoDivisaOrigen + " -> " + this.isoDivisaDestino + ")" );
+            System.out.println(
+                    "Ingrese el monto a convertir (" + this.isoDivisaOrigen + " -> " + this.isoDivisaDestino + ")");
             monto = validarEntradaMonto();
-            if(monto == 0){
+            if (monto == 0) {
                 System.out.println("Por favor, Intente denuevo");
             }
         }
         System.out.println("----------------------------------------------");
         return monto;
     }
-    
-    private double validarEntradaMonto(){
+
+    private double validarEntradaMonto() {
         try {
             double monto = Double.parseDouble(leerLinea());
             if (monto <= 0) {
@@ -263,7 +276,7 @@ public class ConversorMoneda {
         }
     }
 
-    private double obtenerTasa(){
+    private double obtenerTasa() {
         Divisa divisa = divisas.get(isoDivisaDestino);
         double tasa = divisa.getTasa();
         return tasa;
@@ -288,6 +301,27 @@ public class ConversorMoneda {
         } catch (NumberFormatException e) {
             System.out.println("*Error: Ingrese un opcion númerica existente (1-5)");
             return 0;
+        }
+    }
+
+    private void mostrarHistorialUsuario() {
+        LinkedHashMap<String, Operacion> historialUsuario = new LinkedHashMap<>();
+        historialUsuario = this.usuario.getHistorialDeOperaciones();
+        if (historialUsuario.isEmpty()) {
+            System.out.println("""
+                    Aun no ha realizado ninguna Operación
+                    ----------------------------------------------""");
+        } else {
+            System.out.println("""
+                    HISTORIAL:
+                    ----------------------------------------------""");
+            int indice = 1;
+            for (Map.Entry<String, Operacion> entry : historialUsuario.entrySet()) {
+                Operacion operacion = entry.getValue();
+                System.out.println(indice + ". " + operacion.toString());
+                indice++;
+            }
+            System.out.println("----------------------------------------------");
         }
     }
 

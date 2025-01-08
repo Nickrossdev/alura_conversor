@@ -2,14 +2,13 @@ package com.alura.conversor.modelos;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class Usuario {
     private String codigo;
     private String nombre;
     private String correo;
     private int contadorDeOperaciones;
-    private Map<String, Operacion> historialDeOperaciones;
+    private LinkedHashMap<String, Operacion> historialDeOperaciones;
 
     public Usuario(String nombre, String correo) {
         this.codigo = obtenerIdentificadorUnico();
@@ -35,7 +34,7 @@ public class Usuario {
         return this.contadorDeOperaciones;
     }
 
-    public Map<String, Operacion> getHistorialDeOperaciones() {
+    public LinkedHashMap<String, Operacion> getHistorialDeOperaciones() {
         return this.historialDeOperaciones;
     }
 
